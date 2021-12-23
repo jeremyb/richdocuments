@@ -1,0 +1,9 @@
+{
+  "baseUrl": "https://localhost:8081/index.php/",
+  "projectId": "fef71b",
+  "viewportWidth": 1280,
+  "viewportHeight": 720,
+  "chromeWebSecurity": false,
+  "modifyObstructiveCode": false,
+  "experimentalSessionAndOrigin": true
+}
