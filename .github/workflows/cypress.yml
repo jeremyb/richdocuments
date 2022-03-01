@@ -64,12 +64,6 @@ jobs:
         with:
           path: apps/${{ env.APP_NAME }}
 
-      - name: npm install, build richdocuments in testing mode
-        working-directory: apps/richdocuments
-        run: |
-          npm ci
-          npm run dev
-
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
@@ -78,6 +72,7 @@ jobs:
           ini-values:
             apc.enable_cli=on
           coverage: none
+
       - name: Find Docker Host IP
         uses: addnab/docker-run-action@v1
         with:
@@ -116,6 +111,24 @@ jobs:
           curl -v http://localhost:9980/hosting/capabilities --output -
 
           cat data/nextcloud.log
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: npm install, build richdocuments in testing mode
+        working-directory: apps/richdocuments
+        run: |
+          npm ci
+          npm run dev
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
