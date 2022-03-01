@@ -23,14 +23,6 @@ describe('Open test.md in viewer', function() {
 		cy.login(randUser, 'password')
 	})
 
-	it('Opens settings', function() {
-		cy.login('admin', 'admin', '/settings/admin/richdocuments')
-		cy.get('#security-warning-state-ok .message')
-			.should('be.visible')
-			.should('contain.text', 'Collabora Online server is reachable.')
-		cy.screenshot()
-	})
-
 	it('Shows create file entries', function() {
 		cy.visit('/apps/files')
 		cy.get('#controls .button.new')
