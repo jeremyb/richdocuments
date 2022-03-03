@@ -158,18 +158,16 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 	cy.request({
 		method: 'POST',
 		url: `${Cypress.env('baseUrl')}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,
-		form: true,
-		data: {
-			value: configValue,
-		},
 		auth: { user: 'admin', pass: 'admin' },
 		headers: {
 			'OCS-ApiRequest': 'true',
-			'Content-Type': 'application/x-www-form-urlencoded',
 			'Cookie': '',
+		},
+		body: {
+			value: configValue,
 		}
 	}).then(response => {
-		cy.log(`Set app value app ${appId}`, response.status)
+		cy.log(`Set app value app ${appId} ${configKey} ${configValue}`, response.status)
 	})
 })
 

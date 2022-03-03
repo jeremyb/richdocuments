@@ -97,7 +97,6 @@ describe('Open test.md in viewer', function() {
 		})
 
 		it('Notebookbar UI: Open ' + filename + ' the viewer on file click', function() {
-
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar');
 
 			cy.visit('/apps/files', {
