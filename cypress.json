@@ -1,5 +1,6 @@
 {
   "baseUrl": "https://localhost:8081/index.php/",
+  "collaboraUrl": "https://localhost:9980/",
   "projectId": "fef71b",
   "viewportWidth": 1280,
   "viewportHeight": 720,
