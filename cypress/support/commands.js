@@ -26,7 +26,6 @@ const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
 
 Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
-	cy.nextcloudUpdateUser(user, password, 'language', 'en')
 	cy.session(user, function () {
 		cy.visit(route)
 		cy.get('input[name=user]').type(user)
@@ -61,6 +60,7 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 	}).then(response => {
 		cy.log(`Created user ${user}`, response.status)
 	})
+	cy.nextcloudUpdateUser(user, password, 'language', 'en')
 })
 
 Cypress.Commands.add('nextcloudUpdateUser', (user, password, key, value) => {
@@ -139,7 +139,7 @@ Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
-	cy.clearCookies()
+	cy.logout()
 	cy.request({
 		method: 'POST',
 		url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/apps/${appId}?format=json`,
@@ -155,6 +155,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 })
 
 Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
+	cy.logout()
 	cy.request({
 		method: 'POST',
 		url: `${Cypress.env('baseUrl')}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,

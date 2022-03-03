@@ -49,6 +49,7 @@ describe('Open test.md in viewer', function() {
 
 		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic');
+			cy.login(randUser, 'password')
 
 			cy.visit('/apps/files', {
 				onBeforeLoad(win) {
@@ -98,6 +99,7 @@ describe('Open test.md in viewer', function() {
 
 		it('Notebookbar UI: Open ' + filename + ' the viewer on file click', function() {
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar');
+			cy.login(randUser, 'password')
 
 			cy.visit('/apps/files', {
 				onBeforeLoad(win) {
