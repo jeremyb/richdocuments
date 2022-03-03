@@ -4,6 +4,7 @@ const randUser = randHash()
 describe('Open test.md in viewer', function() {
 
 	before(function () {
+		cy.nextcloudEnableApp('testing')
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
 		cy.login(randUser, 'password')
@@ -46,7 +47,9 @@ describe('Open test.md in viewer', function() {
 	const fileTests = ['document.odt', 'presentation.odp', 'spreadsheet.ods', 'drawing.odg']
 	fileTests.forEach((filename) => {
 
-		it('Open ' + filename + ' the viewer on file click', function() {
+		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {
+			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic');
+
 			cy.visit('/apps/files', {
 				onBeforeLoad(win) {
 					cy.spy(win, 'postMessage').as('postMessage')
@@ -92,5 +95,55 @@ describe('Open test.md in viewer', function() {
 			})
 			cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 		})
+
+		it('Notebookbar UI: Open ' + filename + ' the viewer on file click', function() {
+
+			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'notebookbar');
+
+			cy.visit('/apps/files', {
+				onBeforeLoad(win) {
+					cy.spy(win, 'postMessage').as('postMessage')
+				},
+			})
+			cy.openFile(filename)
+
+			cy.get('#viewer', { timeout: 15000 })
+				.should('be.visible')
+				.and('have.class', 'modal-mask')
+				.and('not.have.class', 'icon-loading')
+
+			cy.get('#collaboraframe').iframe().should('exist').as('collaboraframe')
+			cy.get('@collaboraframe').within(() => {
+				cy.get('#loleafletframe').iframe().should('exist').as('loleafletframe')
+			})
+
+			cy.get('@loleafletframe').find('#main-document-content').should('exist')
+
+			// FIXME: wait for collabora to load (sidebar to be hidden)
+			// FIXME: handle welcome popup / survey
+
+			cy.screenshot('open-file_' + filename)
+
+			// Share action
+			cy.get('@loleafletframe').within(() => {
+				cy.get('button.icon-nextcloud-sidebar').click()
+			})
+
+			cy.get('#app-sidebar-vue')
+				.should('be.visible')
+			cy.get('.app-sidebar-header__maintitle')
+				.should('be.visible')
+				.should('contain.text', filename)
+			// FIXME: wait for sidebar tab content
+			// FIXME: validate sharing tab
+			cy.screenshot('share-sidebar_' + filename)
+
+			// Validate closing
+			cy.get('@loleafletframe').within(() => {
+				cy.get('#closebutton').click()
+			})
+			cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+		})
+
 	})
 })

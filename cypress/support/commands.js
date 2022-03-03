@@ -26,6 +26,7 @@ const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
 
 Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
+	cy.nextcloudUpdateUser(user, password, 'language', 'en')
 	cy.session(user, function () {
 		cy.visit(route)
 		cy.get('input[name=user]').type(user)
@@ -59,6 +60,22 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 		}
 	}).then(response => {
 		cy.log(`Created user ${user}`, response.status)
+	})
+})
+
+Cypress.Commands.add('nextcloudUpdateUser', (user, password, key, value) => {
+	cy.request({
+		method: 'PUT',
+		url: `${Cypress.env('baseUrl')}/ocs/v2.php/cloud/users/${user}`,
+		form: true,
+		body: { key, value },
+		auth: { user, pass: password },
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+		}
+	}).then(response => {
+		cy.log(`Updated user ${user} ${key} to ${value}`, response.status)
 	})
 })
 
@@ -120,3 +137,39 @@ Cypress.Commands.add('deleteFile', fileName => {
 Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
 	return $iframe.contents().find('body')
 })
+
+Cypress.Commands.add('nextcloudEnableApp', (appId) => {
+	cy.clearCookies()
+	cy.request({
+		method: 'POST',
+		url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/apps/${appId}?format=json`,
+		form: true,
+		auth: { user: 'admin', pass: 'admin' },
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+		}
+	}).then(response => {
+		cy.log(`Enabled app ${appId}`, response.status)
+	})
+})
+
+Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
+	cy.request({
+		method: 'POST',
+		url: `${Cypress.env('baseUrl')}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,
+		form: true,
+		data: {
+			value: configValue,
+		},
+		auth: { user: 'admin', pass: 'admin' },
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Cookie': '',
+		}
+	}).then(response => {
+		cy.log(`Set app value app ${appId}`, response.status)
+	})
+})
+
