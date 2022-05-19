@@ -59,8 +59,8 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 		}
 	}).then(response => {
 		cy.log(`Created user ${user}`, response.status)
+		cy.nextcloudUpdateUser(user, password, 'language', 'en')
 	})
-	cy.nextcloudUpdateUser(user, password, 'language', 'en')
 })
 
 Cypress.Commands.add('nextcloudUpdateUser', (user, password, key, value) => {

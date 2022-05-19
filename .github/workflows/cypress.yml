@@ -4,8 +4,8 @@ on: [push]
 
 env:
   APP_NAME: richdocuments
-  CYPRESS_baseUrl: http://172.17.0.1:8081/index.php
-  CYPRESS_collaboraUrl: http://172.17.0.1:9980
+  CYPRESS_baseUrl: http://localhost:8081/index.php
+  CYPRESS_collaboraUrl: http://localhost:9980
 
 jobs:
   cypress:
@@ -104,7 +104,6 @@ jobs:
           php occ config:system:set allow_local_remote_servers --value true --type bool
           php occ richdocuments:activate-config
 
-
           curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
 
           curl -v http://localhost:9980/ --output -
@@ -140,4 +139,19 @@ jobs:
           working-directory: 'apps/${{ env.APP_NAME }}'
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # DEBUG: 'cypress:*'
+
+      - name: Upload test failure screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Upload screenshots
+          path: apps/${{ env.APP_NAME }}/cypress/screenshots/
+          retention-days: 5
+
+      - name: Upload nextcloud logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Upload nextcloud log
+          path: data/nextcloud.log
+          retention-days: 5
