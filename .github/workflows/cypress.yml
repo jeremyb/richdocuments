@@ -4,8 +4,8 @@ on: [push]
 
 env:
   APP_NAME: richdocuments
-  CYPRESS_baseUrl: http://localhost:8081/index.php
-  CYPRESS_collaboraUrl: http://localhost:9980
+  CYPRESS_baseUrl: http://172.17.0.1:8081/index.php
+  CYPRESS_collaboraUrl: http://172.17.0.1:9980
 
 jobs:
   cypress:
