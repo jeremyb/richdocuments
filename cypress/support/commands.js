@@ -50,7 +50,8 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 		form: true,
 		body: {
 			userid: user,
-			password: password
+			password: password,
+			language: 'en',
 		},
 		auth: { user: 'admin', pass: 'admin' },
 		headers: {
@@ -59,9 +60,6 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 		}
 	}).then(response => {
 		cy.log(`Created user ${user}`, response.status)
-		cy.login(user, password).then(() => {
-			cy.nextcloudUpdateUser(user, password, 'language', 'en')
-		})
 	})
 })
 
