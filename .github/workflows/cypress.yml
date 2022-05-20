@@ -28,7 +28,7 @@ jobs:
         image: collabora/code
         env:
           extra_params: '--o:ssl.enable=false --o:welcome.enable=false'
-          aliasgroup1: 'http://nextcloud'
+          aliasgroup1: 'http://172.17.0.1'
         ports:
           - "9980:9980"
 
