@@ -25,7 +25,7 @@ describe('Open test.md in viewer', function() {
 
 		it('Create empty ' + filetype + ' file', function() {
 			cy.visit('/apps/files')
-			cy.get('#controls .button.new')
+			cy.get('.files-controls .button.new')
 				.should('be.visible')
 				.click()
 
@@ -39,7 +39,7 @@ describe('Open test.md in viewer', function() {
 			cy.get('@menuitem').find('.filenameform input[type=text]').type('MyNewFile')
 			cy.get('@menuitem').find('.filenameform .icon-confirm').click()
 
-			cy.get('#viewer', { timeout: 15000 })
+			cy.get('#viewer', { timeout: 30000 })
 				.should('be.visible')
 				.and('have.class', 'modal-mask')
 				.and('not.have.class', 'icon-loading')

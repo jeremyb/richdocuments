@@ -30,7 +30,7 @@ Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
 		cy.visit(route)
 		cy.get('input[name=user]').type(user)
 		cy.get('input[name=password]').type(password)
-		cy.get('.submit-wrapper input[type=submit]').click()
+		cy.get('[type=submit]').click()
 		cy.url().should('include', route)
 	})
 	// in case the session already existed but we are on a different route...
@@ -117,21 +117,21 @@ Cypress.Commands.add('uploadFile', (fileName, mimeType, target) => {
 })
 
 Cypress.Commands.add('createFolder', dirName => {
-	cy.get('#controls .actions > .button.new').click()
-	cy.get('#controls .actions .newFileMenu a[data-action="folder"]').click()
-	cy.get('#controls .actions .newFileMenu a[data-action="folder"] input[type="text"]').type(dirName)
-	cy.get('#controls .actions .newFileMenu a[data-action="folder"] input.icon-confirm').click()
+	cy.get('.files-controls .actions > .button.new').click()
+	cy.get('.files-controls .actions .newFileMenu a[data-action="folder"]').click()
+	cy.get('.files-controls .actions .newFileMenu a[data-action="folder"] input[type="text"]').type(dirName)
+	cy.get('.files-controls .actions .newFileMenu a[data-action="folder"] input.icon-confirm').click()
 	cy.log('Created folder', dirName)
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`#fileList tr[data-file="${fileName}"] a.name`).click()
+	cy.get(`.files-filestable tr[data-file="${fileName}"] a.name`).click()
 	cy.wait(250)
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`#fileList tr[data-file="${fileName}"] a.name .action-menu`).click()
-	cy.get(`#fileList tr[data-file="${fileName}"] a.name + .popovermenu .action-delete`).click()
+	cy.get(`.files-filestable tr[data-file="${fileName}"] a.name .action-menu`).click()
+	cy.get(`.files-filestable tr[data-file="${fileName}"] a.name + .popovermenu .action-delete`).click()
 })
 
 Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
