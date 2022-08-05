@@ -40,7 +40,7 @@ describe('Files default view', function() {
 	})
 
 	it('See the default files list', function() {
-		cy.get('#fileList tr[data-file="welcome.txt"]', {timeout: 10000})
+		cy.get('.files-filestable:visible tr[data-file="welcome.txt"]', {timeout: 10000})
 			.should('contain', 'welcome.txt')
 	})
 

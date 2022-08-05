@@ -38,7 +38,6 @@ describe('Open test.md in viewer', function() {
 
 	it('Shared folder link can create a file and open it', function() {})
 
-	const fileTests = ['document.odt', 'presentation.odp', 'spreadsheet.ods', 'drawing.odg']
 	fileTests.forEach((filename) => {
 
 		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {

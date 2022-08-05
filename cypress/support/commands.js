@@ -125,13 +125,13 @@ Cypress.Commands.add('createFolder', dirName => {
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`.files-filestable tr[data-file="${fileName}"] a.name`).click()
+	cy.get(`.files-filestable:visible tr[data-file="${fileName}"] a.name`).click()
 	cy.wait(250)
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`.files-filestable tr[data-file="${fileName}"] a.name .action-menu`).click()
-	cy.get(`.files-filestable tr[data-file="${fileName}"] a.name + .popovermenu .action-delete`).click()
+	cy.get(`.files-filestable:visible tr[data-file="${fileName}"] a.name .action-menu`).click()
+	cy.get(`.files-filestable:visible tr[data-file="${fileName}"] a.name + .popovermenu .action-delete`).click()
 })
 
 Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
