@@ -4,7 +4,7 @@ const randUser = randHash()
 describe('Open test.md in viewer', function() {
 
 	before(function () {
-		// Init user
+		cy.login('admin', 'admin')
 		cy.nextcloudCreateUser(randUser, 'password')
 
 		// FIXME: files app is thowing the following error for some reason

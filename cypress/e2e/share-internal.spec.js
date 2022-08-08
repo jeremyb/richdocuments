@@ -5,6 +5,7 @@ const shareRecipient = randHash()
 describe('Open test.md in viewer', function() {
 
 	before(function () {
+		cy.login('admin', 'admin')
 		cy.nextcloudEnableApp('testing')
 		// Init user
 		cy.nextcloudCreateUser(shareOwner, 'password')

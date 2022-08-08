@@ -43,7 +43,6 @@ Cypress.Commands.add('logout', (route = '/') => {
 })
 
 Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
-	cy.clearCookies()
 	cy.request({
 		method: 'POST',
 		url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/users?format=json`,
