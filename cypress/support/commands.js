@@ -152,7 +152,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 			}
 		}).then(response => {
 			cy.log(`Enabled app ${appId}`, response.status)
-			cy.login(previousUser, 'password')
+			cy.login(previousUser.value, 'password')
 		})
 	})
 })
@@ -173,7 +173,7 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 			}
 		}).then(response => {
 			cy.log(`Set app value app ${appId} ${configKey} ${configValue}`, response.status)
-			cy.login(previousUser, 'password')
+			cy.login(previousUser.value, 'password')
 		})
 	})
 })
