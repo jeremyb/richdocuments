@@ -89,8 +89,10 @@ jobs:
           php occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
           php occ config:system:set loglevel --value=0
+          php occ config:system:set session_lifetime --value=3600
           php -f index.php
-          PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 > /tmp/out.log 2>&1 &
+          php cron.php
+          PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:8081 > /tmp/out.log 2>&1 &
           export OC_PASS=1234561
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
