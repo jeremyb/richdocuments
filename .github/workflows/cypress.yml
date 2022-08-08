@@ -88,6 +88,7 @@ jobs:
           mkdir data
           php occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
+          php occ config:system:set loglevel --value=0
           php -f index.php
           PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 > /tmp/out.log 2>&1 &
           export OC_PASS=1234561
@@ -143,6 +144,9 @@ jobs:
       - name: Log out
         if: failure()
         run: |
+          pwd
+          ls -l
+          ls -l data/
           cat data/nextcloud.log
           cat /tmp/out.log
 
