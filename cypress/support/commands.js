@@ -32,9 +32,12 @@ Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
 		cy.get('input[name=password]').type(password)
 		cy.get('[type=submit]').click()
 		cy.url().should('include', route)
+	}, {
+		validate() {
+			cy.visit(route)
+			cy.url().should('include', route).should('not.include', 'login')
+		},
 	})
-	// in case the session already existed but we are on a different route...
-	cy.visit(route)
 })
 
 Cypress.Commands.add('logout', (route = '/') => {
