@@ -139,40 +139,42 @@ Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
-	const previousUser = cy.getCookie('nc_username')
-	cy.login('admin', 'admin')
-	cy.request({
-		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/apps/${appId}?format=json`,
-		form: true,
-		auth: { user: 'admin', pass: 'admin' },
-		headers: {
-			'OCS-ApiRequest': 'true',
-			'Content-Type': 'application/x-www-form-urlencoded',
-		}
-	}).then(response => {
-		cy.log(`Enabled app ${appId}`, response.status)
-		cy.login(previousUser, 'password')
+	cy.getCookie('nc_username').then((previousUser) => {
+		cy.login('admin', 'admin')
+		cy.request({
+			method: 'POST',
+			url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/apps/${appId}?format=json`,
+			form: true,
+			auth: { user: 'admin', pass: 'admin' },
+			headers: {
+				'OCS-ApiRequest': 'true',
+				'Content-Type': 'application/x-www-form-urlencoded',
+			}
+		}).then(response => {
+			cy.log(`Enabled app ${appId}`, response.status)
+			cy.login(previousUser, 'password')
+		})
 	})
 })
 
 Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
-	const previousUser = cy.getCookie('nc_username')
-	cy.login('admin', 'admin')
-	cy.request({
-		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,
-		auth: { user: 'admin', pass: 'admin' },
-		headers: {
-			'OCS-ApiRequest': 'true',
-			'Cookie': '',
-		},
-		body: {
-			value: configValue,
-		}
-	}).then(response => {
-		cy.log(`Set app value app ${appId} ${configKey} ${configValue}`, response.status)
-		cy.login(previousUser, 'password')
+	cy.getCookie('nc_username').then((previousUser) => {
+		cy.login('admin', 'admin')
+		cy.request({
+			method: 'POST',
+			url: `${Cypress.env('baseUrl')}/ocs/v1.php/apps/testing/api/v1/app/${appId}/${configKey}?format=json`,
+			auth: { user: 'admin', pass: 'admin' },
+			headers: {
+				'OCS-ApiRequest': 'true',
+				'Cookie': '',
+			},
+			body: {
+				value: configValue,
+			}
+		}).then(response => {
+			cy.log(`Set app value app ${appId} ${configKey} ${configValue}`, response.status)
+			cy.login(previousUser, 'password')
+		})
 	})
 })
 
