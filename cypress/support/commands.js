@@ -162,7 +162,9 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 })
 
 Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
+	return;
 	cy.getCookie('nc_username').then((previousUser) => {
+		cy.log(nc_username?.value)
 		if (previousUser?.value) {
 			cy.login('admin', 'admin')
 		}
