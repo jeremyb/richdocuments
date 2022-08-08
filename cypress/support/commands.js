@@ -140,7 +140,7 @@ Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 	cy.getCookie('nc_username').then((previousUser) => {
-		if (previousUser.value) {
+		if (previousUser?.value) {
 			cy.login('admin', 'admin')
 		}
 		cy.request({
@@ -154,7 +154,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 			}
 		}).then(response => {
 			cy.log(`Enabled app ${appId}`, response.status)
-			if (previousUser.value) {
+			if (previousUser?.value) {
 				cy.login(previousUser.value, 'password')
 			}
 		})
@@ -163,7 +163,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 
 Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
 	cy.getCookie('nc_username').then((previousUser) => {
-		if (previousUser.value) {
+		if (previousUser?.value) {
 			cy.login('admin', 'admin')
 		}
 		cy.request({
@@ -179,7 +179,7 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 			}
 		}).then(response => {
 			cy.log(`Set app value app ${appId} ${configKey} ${configValue}`, response.status)
-			if (previousUser.value) {
+			if (previousUser?.value) {
 				cy.login(previousUser.value, 'password')
 			}
 		})
