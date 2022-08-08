@@ -245,12 +245,12 @@ class WopiController extends Controller {
 
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if ($user !== null) {
-			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => self::WOPI_AVATAR_SIZE]);
+			//$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => self::WOPI_AVATAR_SIZE]);
 			if ($this->groupManager->isAdmin($wopi->getEditorUid())) {
 				$response['UserExtraInfo']['is_admin'] = true;
 			}
 		} else {
-			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => urlencode($wopi->getGuestDisplayname()), 'size' => self::WOPI_AVATAR_SIZE]);
+			//$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => urlencode($wopi->getGuestDisplayname()), 'size' => self::WOPI_AVATAR_SIZE]);
 		}
 
 		if ($isPublic) {
@@ -278,7 +278,7 @@ class WopiController extends Controller {
 			$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
 			$response['UserId'] = $cloudID->getDisplayId();
 			$response['UserFriendlyName'] = $cloudID->getDisplayId();
-			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => self::WOPI_AVATAR_SIZE]);
+			// $response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => self::WOPI_AVATAR_SIZE]);
 			$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
 			$addressBookEntries = \OC::$server->getContactsManager()->search($cleanCloudId, ['CLOUD']);
 			foreach ($addressBookEntries as $entry) {
