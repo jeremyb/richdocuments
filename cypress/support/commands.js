@@ -139,6 +139,7 @@ Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
+	return;
 	cy.getCookie('nc_username').then((previousUser) => {
 		if (previousUser?.value) {
 			cy.login('admin', 'admin')
@@ -162,6 +163,7 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 })
 
 Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
+	return;
 	cy.getCookie('nc_username').then((previousUser) => {
 		cy.log(nc_username?.value)
 		if (previousUser?.value) {
