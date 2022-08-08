@@ -27,7 +27,7 @@ jobs:
       collabora:
         image: collabora/code
         env:
-          extra_params: '--o:ssl.enable=false --o:welcome.enable=false'
+          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
         ports:
           - "9980:9980"
