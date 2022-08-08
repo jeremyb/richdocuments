@@ -38,6 +38,7 @@ Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
 			cy.url().should('include', route).should('not.include', 'login')
 		},
 	})
+	cy.visit(route)
 })
 
 Cypress.Commands.add('logout', (route = '/') => {
