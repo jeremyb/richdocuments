@@ -30,6 +30,7 @@ use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Listener\CSPListener;
 use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
+use OCA\Richdocuments\Listeners\RegisterDirectEditorEventListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\Preview\MSExcel;
@@ -45,6 +46,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\TemplateFileCreator;
@@ -69,6 +71,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
 		$context->registerEventListener(LoadViewer::class, LoadViewerListener::class);
 		$context->registerEventListener(ShareLinkAccessedEvent::class, ShareLinkListener::class);
+		$context->registerEventListener(RegisterDirectEditorEvent::class, RegisterDirectEditorEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
